@@ -199,6 +199,8 @@ void SchematicScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
 void SchematicScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
+
+    emit statusEvent(tr("XY:") + QString::number(event->scenePos().x()) + tr(",") + QString::number(-event->scenePos().y()));
     if ((sceneMode == AddLine) && (numEndpoints == 1)) {
         lineToDraw->setLine(0,0,event->scenePos().x() - origPoint.x(),
                                 event->scenePos().y() - origPoint.y());

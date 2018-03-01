@@ -18,6 +18,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->graphicsView->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->graphicsView, SIGNAL(customContextMenuRequested(QPoint)),
             this, SLOT(customMenuRequested(QPoint)));
+    connect(sheet, SIGNAL(statusEvent(QString)),
+            this, SLOT(setStatusBarText(QString)));
 }
 
 MainWindow::~MainWindow()
@@ -32,4 +34,9 @@ void MainWindow::customMenuRequested(QPoint pos){
 void MainWindow::on_actionQuit_triggered()
 {
 
+}
+
+void MainWindow::setStatusBarText(const QString &text)
+{
+    ui->statusBar->showMessage(text);
 }

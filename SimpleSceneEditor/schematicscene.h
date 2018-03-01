@@ -34,6 +34,8 @@ private slots:
     void action2();
     void action3();
 
+signals:
+        void statusEvent(const QString&);
 
 private:
     QMenu* popupMenu;
