@@ -25,9 +25,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    schematicscene.cpp
+    schematicscene.cpp \
+    graphicsviewzoom.cpp
 
 HEADERS  += mainwindow.h \
-    schematicscene.h
+    schematicscene.h \
+    graphicsviewzoom.h
 
 FORMS    += mainwindow.ui

@@ -23,11 +23,11 @@ private:
 
 public slots:
     void customMenuRequested(QPoint pos);
+    void tLog(QString);
+    void setStatusBarText(QString);
 
 private slots:
     void on_actionQuit_triggered();
-    void setStatusBarText(const QString&);
-
 };
 
 #endif // MAINWINDOW_H

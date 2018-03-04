@@ -11,15 +11,14 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     sheet = new SchematicScene(this);
-    sheet->setSceneRect(0,0,200,200);
+    sheet->setSceneRect(0,0,2000,2000);
     ui->graphicsView->setScene(sheet);
-    sheet->setSceneMode(SchematicScene::NoMode);
 
     ui->graphicsView->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(ui->graphicsView, SIGNAL(customContextMenuRequested(QPoint)),
-            this, SLOT(customMenuRequested(QPoint)));
-    connect(sheet, SIGNAL(statusEvent(QString)),
-            this, SLOT(setStatusBarText(QString)));
+//    connect(ui->graphicsView, SIGNAL(customContextMenuRequested(QPoint)),
+//            this, SLOT(customMenuRequested(QPoint)));
+    connect(sheet, SIGNAL(statusEvent(QString)), this, SLOT(setStatusBarText(QString)));
+    connect(ui->graphicsView, SIGNAL(tLog(QString)), this, SLOT(tLog(QString)));
 }
 
 MainWindow::~MainWindow()
@@ -31,12 +30,18 @@ void MainWindow::customMenuRequested(QPoint pos){
     sheet->customMenuRequested(pos);
 }
 
+void MainWindow::tLog(QString text)
+{
+    ui->plainTextEdit->appendPlainText(text);
+}
+
+void MainWindow::setStatusBarText(QString text)
+{
+    ui->statusBar->showMessage(text);
+}
+
 void MainWindow::on_actionQuit_triggered()
 {
 
 }
 
-void MainWindow::setStatusBarText(const QString &text)
-{
-    ui->statusBar->showMessage(text);
-}
