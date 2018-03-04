@@ -43,6 +43,7 @@ private:
     Mode sceneMode;
     QPointF origPoint;
     int numEndpoints;
+    QGraphicsLineItem* outline;
     QGraphicsLineItem* lineToDraw;
     QGraphicsRectItem* rectToDraw;
     void makeItemsControllable(bool areControllable);

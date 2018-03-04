@@ -11,7 +11,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     sheet = new SchematicScene(this);
-    sheet->setSceneRect(0,0,2000,2000);
+    //sheet->setSceneRect(0,0,2000,2000);
     ui->graphicsView->setScene(sheet);
 
     ui->graphicsView->setContextMenuPolicy(Qt::CustomContextMenu);

@@ -20,7 +20,7 @@ public:
     int getGridSize() const { return this->gridSize; }
 
 protected:
-    void drawBackground(QPainter* painter, const QRectF &rect);
+    //void drawBackground(QPainter* painter, const QRectF &rect);
     void mouseMoveEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);

@@ -27,6 +27,25 @@ SchematicScene::SchematicScene(QObject* parent): QGraphicsScene(parent)
     connect(pAction2, SIGNAL(triggered()), this, SLOT(action2()));
     connect(pAction3, SIGNAL(triggered()), this, SLOT(action3()));
 
+    /* sheet size */
+    this->setSceneRect(0, 0, 16500+200, 11700+200);
+    QBrush sheetColor(QColor(255,252,248));
+    QPen sheetBorderColor(Qt::black);
+
+    /* "tabletop" background coloring */
+    QColor backgroundTopColor(Qt::lightGray);
+    QColor backgroundBottomColor(Qt::darkGray);
+    /* top-to-bottom of sheet outline */
+    QLinearGradient shade(0, 0, 0, this->sceneRect().height());
+    shade.setColorAt(0,backgroundTopColor);
+    shade.setColorAt(1, backgroundBottomColor);
+    this->setBackgroundBrush(shade);
+
+    /* primitive way of drawing sheet */
+    QGraphicsItem *sheetItem;
+    sheetItem = this->addRect(100, 100, 16500, 11700, sheetBorderColor, sheetColor);
+    sheetItem->setFlag(QGraphicsItem::ItemIsMovable, false);
+    sheetItem->setFlag(QGraphicsItem::ItemIsSelectable, false);
 }
 
 void SchematicScene::customMenuRequested(QPoint pos)

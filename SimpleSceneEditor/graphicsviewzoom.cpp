@@ -100,12 +100,17 @@ void GraphicsViewZoom::mouseMoveEvent(QMouseEvent *event)
     QGraphicsView::mouseMoveEvent(event);
     //event->ignore();
 }
-
+#if 0
 void GraphicsViewZoom::drawBackground(QPainter *painter, const QRectF &rect)
 {
-    QPen pen;
-    pen.setWidth(1);
-    painter->setPen(pen);
+    QBrush background(Qt::darkGray);
+    QColor gridColor(Qt::darkBlue);
+    QPen gridPen(gridColor);
+    gridPen.setWidth(1);
+    //painter->setBackgroundMode(Qt::OpaqueMode);
+    //painter->setBackground(background);
+    //painter->setBrush(background);
+    painter->setPen(gridPen);
 
     qreal left = int(rect.left()) - (int(rect.left()) % gridSize);
     qreal top = int(rect.top()) - (int(rect.top()) % gridSize);
@@ -120,3 +125,4 @@ void GraphicsViewZoom::drawBackground(QPainter *painter, const QRectF &rect)
     }
     painter->drawPoints(points.data(), points.size());
 }
+#endif
