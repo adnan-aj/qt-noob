@@ -8,17 +8,13 @@
 #include <mainwindow.h>
 
 GraphicsViewZoom::GraphicsViewZoom(QWidget *parent)
-    : QGraphicsView(parent), gridSize(10)
+    : QGraphicsView(parent), gridSize(20)
 {
   this->viewport()->installEventFilter(this);
   this->setMouseTracking(true);
   _modifiers = Qt::ControlModifier;
   _zoom_factor_base = 1.0015;
-  sceneMode = NoMode;
   isPanning = false;
-  isZooming = false;
-  isPlacing = false;
-  isDragging = false;
 }
 
 void GraphicsViewZoom::gentle_zoom(double factor) {
@@ -113,6 +109,9 @@ void GraphicsViewZoom::drawBackground(QPainter *painter, const QRectF &rect)
 
     qreal left = int(rect.left()) - (int(rect.left()) % gridSize);
     qreal top = int(rect.top()) - (int(rect.top()) % gridSize);
+
+    emit tLog(tr("ViewZoom::drawBackground ") + QString::number(int(rect.width() / gridSize)) + "," + QString::number(int(rect.height() / gridSize)));
+
     QVector<QPointF> points;
     for (qreal x = left; x < rect.right(); x += gridSize){
         for (qreal y = top; y < rect.bottom(); y += gridSize){
