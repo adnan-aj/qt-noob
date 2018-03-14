@@ -36,7 +36,7 @@ FORMS    += mainwindow.ui
 
 win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../../../usr/lib/x86_64-linux-gnu/release/ -lQt5Charts
 else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../../../usr/lib/x86_64-linux-gnu/debug/ -lQt5Charts
-else:unix: LIBS += -L$$PWD/../../../../usr/lib/x86_64-linux-gnu/ -lQt5Charts
+else:unix: LIBS += -L/usr/lib/x86_64-linux-gnu/ -lQt5Charts
 
-INCLUDEPATH += $$PWD/../../../../usr/include/x86_64-linux-gnu/qt5/QtCharts
-DEPENDPATH += $$PWD/../../../../usr/include/x86_64-linux-gnu/qt5/QtCharts
+INCLUDEPATH += /usr/include/x86_64-linux-gnu/qt5/QtCharts
+DEPENDPATH += /usr/include/x86_64-linux-gnu/qt5/QtCharts

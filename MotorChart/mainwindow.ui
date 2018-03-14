@@ -23,7 +23,7 @@
       <widget class="QWidget" name="layoutWidget">
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
-         <widget class="QChartView" name="chartView"/>
+         <widget class="ChartViewZoom" name="chartView"/>
         </item>
         <item>
          <widget class="QScrollBar" name="chartScroll">
@@ -81,9 +81,9 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>QChartView</class>
+   <class>ChartViewZoom</class>
    <extends>QGraphicsView</extends>
-   <header>qchartview.h</header>
+   <header>chartviewzoom.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

@@ -11,7 +11,7 @@ ChartViewZoom::ChartViewZoom(QWidget *parent) : QChartView(parent)
 
 void ChartViewZoom::mousePressEvent(QMouseEvent *event)
 {
-    if (event->button() == Qt::MiddleButton)
+    if (event->button() == Qt::RightButton)
     {
         //QApplication::setOverrideCursor(QCursor(Qt::SizeAllCursor));
         m_lastMousePos = event->pos();
@@ -27,7 +27,7 @@ void ChartViewZoom::mousePressEvent(QMouseEvent *event)
 void ChartViewZoom::mouseReleaseEvent(QMouseEvent *event)
 {
     isPanning = false;
-    if (event->button() == Qt::MiddleButton)
+    if (event->button() == Qt::RightButton)
     {
         setCursor(Qt::ArrowCursor);
         event->accept();
@@ -62,7 +62,9 @@ void ChartViewZoom::mouseMoveEvent(QMouseEvent *event)
 #endif
     if (isPanning) {
                //chart()->scroll(-10, 0);
-        this->chart()->scroll((qreal)(panStartX - event->x()) / 10.0, 0);
+        this->chart()->scroll((qreal)(panStartX - event->x()), 0);
+        panStartX = event->x();
+        panStartY = event->y();
         event->accept();
         return;
     }

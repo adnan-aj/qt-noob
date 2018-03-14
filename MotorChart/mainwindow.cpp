@@ -48,7 +48,7 @@ MainWindow::MainWindow(QWidget *parent) :
     movementChart->axisY()->setRange(-200, 200);
     ui->chartView->setChart(movementChart);
     ui->chartView->setRenderHint(QPainter::Antialiasing);
-    ui->chartView->setRubberBand( QChartView::HorizontalRubberBand );
+    //ui->chartView->setRubberBand( QChartView::HorizontalRubberBand );
 
     connect( movementChart->axisX( ), SIGNAL(rangeChanged(qreal, qreal)), this, SLOT(on_rangeChanged(qreal,qreal)) );
     // DONE::::
