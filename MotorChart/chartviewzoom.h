@@ -12,14 +12,18 @@ class ChartViewZoom : public QChartView
 public:
     ChartViewZoom(QWidget *parent = Q_NULLPTR);
 
-private:
+protected:
     virtual void mousePressEvent(QMouseEvent *event);
     virtual void mouseReleaseEvent(QMouseEvent *event);
     virtual void mouseMoveEvent(QMouseEvent *event);
+    virtual void wheelEvent(QWheelEvent *event);
 
-    QPointF m_lastMousePos;
+private:
+    Qt::KeyboardModifiers _modifiers;
     bool isPanning;
     int panStartX, panStartY;
+    qreal scaleFactorX=1.0;
+
 };
 
 #endif // CHARTVIEWZOOM_H

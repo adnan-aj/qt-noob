@@ -7,14 +7,14 @@ ChartViewZoom::ChartViewZoom(QWidget *parent) : QChartView(parent)
     //setDragMode(QGraphicsView::NoDrag);
     this->setMouseTracking(true);
     isPanning = false;
+    _modifiers = Qt::ControlModifier;
+
 }
 
 void ChartViewZoom::mousePressEvent(QMouseEvent *event)
 {
     if (event->button() == Qt::RightButton)
     {
-        //QApplication::setOverrideCursor(QCursor(Qt::SizeAllCursor));
-        m_lastMousePos = event->pos();
         panStartX = event->x();
         panStartY = event->y();
         isPanning = true;
@@ -69,4 +69,30 @@ void ChartViewZoom::mouseMoveEvent(QMouseEvent *event)
         return;
     }
     QChartView::mouseMoveEvent(event);
+}
+
+void ChartViewZoom::wheelEvent(QWheelEvent *event)
+{
+    if (QApplication::keyboardModifiers() == _modifiers) {
+        QWheelEvent* wheel_event = static_cast<QWheelEvent*>(event);
+        if (wheel_event->orientation() == Qt::Vertical) {
+            //        double angle = wheel_event->angleDelta().y();
+            //        double factor = qPow(_zoom_factor_base, angle);
+            //        gentle_zoom(factor);
+            //        return true;
+
+            chart()->zoomReset();
+
+            scaleFactorX *= event->angleDelta().y() > 0 ? 0.5 : 2;
+
+            QRectF rect = chart()->plotArea();
+            QPointF c = chart()->plotArea().center();
+            rect.setWidth(scaleFactorX*rect.width());
+            rect.moveCenter(c);
+            chart()->zoomIn(rect);
+            return;
+        }
+    }
+
+        QChartView::wheelEvent(event);
 }
