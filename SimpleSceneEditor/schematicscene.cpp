@@ -9,7 +9,7 @@
 //#include "customrectitem.h"
 //#include "customlineitem.h"
 
-SchematicScene::SchematicScene(QObject* parent): QGraphicsScene(parent)
+SchematicScene::SchematicScene(QObject* parent): QGraphicsScene(parent), sheetSizeX(16500), sheetSizeY(11700), sheetGridSize(100)
 {
     sceneMode = NoMode; //enum Mode {NoMode, SelectObject, AddDot, DrawLine, DrawLine1, DrawLine2};
     lineToDraw = 0;
@@ -28,9 +28,10 @@ SchematicScene::SchematicScene(QObject* parent): QGraphicsScene(parent)
     connect(pAction3, SIGNAL(triggered()), this, SLOT(action3()));
 
     /* sheet size */
-    this->setSceneRect(0, 0, 16500+200, 11700+200);
+    this->setSceneRect(-2000, -2000, sheetSizeX+4000, sheetSizeY+4000);
     QBrush sheetColor(QColor(255,252,248));
     QPen sheetBorderColor(Qt::black);
+    sheetBorderColor.setWidth(10);
 
     /* "tabletop" background coloring */
     QColor backgroundTopColor(Qt::lightGray);
@@ -43,9 +44,13 @@ SchematicScene::SchematicScene(QObject* parent): QGraphicsScene(parent)
 
     /* primitive way of drawing sheet */
     QGraphicsItem *sheetItem;
-    sheetItem = this->addRect(100, 100, 16500, 11700, sheetBorderColor, sheetColor);
-    sheetItem->setFlag(QGraphicsItem::ItemIsMovable, false);
-    sheetItem->setFlag(QGraphicsItem::ItemIsSelectable, false);
+//    sheetItem = this->addRect(200, 200, sheetSizeX-400, sheetSizeY-400, sheetBorderColor);
+//    sheetItem->setFlag(QGraphicsItem::ItemIsMovable, false);
+//    sheetItem->setFlag(QGraphicsItem::ItemIsSelectable, false);
+    QGraphicsItem *borderItem;
+//    borderItem = this->addRect(400, 400, sheetSizeX-800, sheetSizeY-800, sheetBorderColor);
+//    borderItem->setFlag(QGraphicsItem::ItemIsMovable, false);
+//    borderItem->setFlag(QGraphicsItem::ItemIsSelectable, false);
 }
 
 void SchematicScene::customMenuRequested(QPoint pos)
@@ -132,6 +137,38 @@ void SchematicScene::keyPressEvent(QKeyEvent *event)
     }
     else
         QGraphicsScene::keyPressEvent(event);
+}
+
+void SchematicScene::drawBackground(QPainter *painter, const QRectF &rect)
+{
+    QBrush background(Qt::darkGray);
+    QColor gridColor(Qt::darkBlue);
+    QPen gridPen(gridColor);
+    gridPen.setWidth(5);
+    //painter->setBackgroundMode(Qt::OpaqueMode);
+    //painter->setBackground(background);
+    //painter->setBrush(background);
+
+    qreal left = int(rect.left()) - (int(rect.left()) % sheetGridSize);
+    qreal top = int(rect.top()) - (int(rect.top()) % sheetGridSize);
+    emit tLog(tr("ViewZoom::drawBackground ") + QString::number(int(rect.width() / sheetGridSize)) + "," + QString::number(int(rect.height() / sheetGridSize)));
+
+    // Paint the sheet background color first, with no sheet outline
+    QGraphicsScene::drawBackground(painter, rect);\
+    QBrush sheetColor(QColor(255,252,248));
+    painter->setBrush(sheetColor);
+    painter->setPen(Qt::NoPen);
+    painter->drawRect(0, 0, sheetSizeX, sheetSizeY);
+
+    // Paint the grid on all background TODO: paint grid only on the sheet
+    painter->setPen(gridPen);
+    QVector<QPointF> points;
+    for (qreal x = left; x < rect.right(); x += sheetGridSize){
+        for (qreal y = top; y < rect.bottom(); y += sheetGridSize){
+            points.append(QPointF(x,y));
+        }
+    }
+    painter->drawPoints(points.data(), points.size());
 }
 
 void SchematicScene::mousePressEvent(QGraphicsSceneMouseEvent *event)

@@ -20,16 +20,21 @@ public:
     int getGridSize() const { return this->gridSize; }
 
 protected:
-    //void drawBackground(QPainter* painter, const QRectF &rect);
+//    void drawBackground(QPainter* painter, const QRectF &rect);
     void mouseMoveEvent(QMouseEvent *event);
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
+#define EVENTFILTER
+#ifdef EVENTFILTER
+    bool eventFilter(QObject* object, QEvent* event);
+#else
+    void wheelEvent(QWheelEvent *event);
+#endif
 
 private:
     Qt::KeyboardModifiers _modifiers;
     double _zoom_factor_base;
     QPointF target_scene_pos, target_viewport_pos;
-    bool eventFilter(QObject* object, QEvent* event);
     bool isPanning;
     int _panStartX, _panStartY;
     int gridSize;
@@ -38,6 +43,15 @@ private:
 signals:
     void zoomed();
     void tLog(QString);
+
+public slots:
+    void viewAll();
+//    void viewSheet();
+//    void viewZoomOut();
+//    void viewZoomIn();
+//    void viewFit(QRect);
+
+
 };
 
 #endif // GRAPHICSVIEWZOOM_H

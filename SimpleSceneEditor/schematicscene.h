@@ -24,6 +24,7 @@ protected:
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
 //    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
     void keyPressEvent(QKeyEvent *event);
+    void drawBackground(QPainter* painter, const QRectF &rect);
 
 public slots:
     void customMenuRequested(QPoint pos);
@@ -39,6 +40,8 @@ signals:
     void tLog(QString);
 
 private:
+    int sheetSizeX, sheetSizeY;
+    int sheetGridSize;
     QMenu* popupMenu;
     Mode sceneMode;
     QPointF origPoint;

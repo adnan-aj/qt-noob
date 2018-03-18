@@ -31,6 +31,7 @@ void GraphicsViewZoom::set_zoom_factor_base(double value) {
   _zoom_factor_base = value;
 }
 
+#ifdef EVENTFILTER
 bool GraphicsViewZoom::eventFilter(QObject *object, QEvent *event) {
   if (event->type() == QEvent::MouseMove) {
     QMouseEvent* mouse_event = static_cast<QMouseEvent*>(event);
@@ -53,6 +54,27 @@ bool GraphicsViewZoom::eventFilter(QObject *object, QEvent *event) {
   Q_UNUSED(object)
   return false;
 }
+
+#else
+void GraphicsViewZoom::wheelEvent(QWheelEvent *event)
+{
+    QPointF delta = target_viewport_pos - event->pos();
+    if (qAbs(delta.x()) > 5 || qAbs(delta.y()) > 5) {
+        target_viewport_pos = event->pos();
+        target_scene_pos = this->mapToScene(event->pos());
+    }
+    QWheelEvent* wheel_event = static_cast<QWheelEvent*>(event);
+    if (QApplication::keyboardModifiers() == _modifiers) {
+        if (wheel_event->orientation() == Qt::Vertical) {
+            double angle = wheel_event->angleDelta().y();
+            double factor = qPow(_zoom_factor_base, angle);
+            gentle_zoom(factor);
+            return;
+        }
+    }
+    QGraphicsView::wheelEvent(event);
+}
+#endif
 
 void GraphicsViewZoom::mousePressEvent(QMouseEvent *event)
 {
@@ -126,3 +148,8 @@ void GraphicsViewZoom::drawBackground(QPainter *painter, const QRectF &rect)
     painter->drawPoints(points.data(), points.size());
 }
 #endif
+
+void GraphicsViewZoom::viewAll()
+{
+    fitInView(scene()->itemsBoundingRect());
+}
