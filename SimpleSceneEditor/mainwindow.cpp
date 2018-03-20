@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent) :
 //    connect(ui->graphicsView, SIGNAL(customContextMenuRequested(QPoint)),
 //            this, SLOT(customMenuRequested(QPoint)));
     connect(sheet, SIGNAL(statusEvent(QString)), this, SLOT(setStatusBarText(QString)));
+    connect(sheet, SIGNAL(tLog(QString)), this, SLOT(tLog(QString)));
     connect(ui->graphicsView, SIGNAL(tLog(QString)), this, SLOT(tLog(QString)));
 }
 

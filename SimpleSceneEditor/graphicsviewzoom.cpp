@@ -95,7 +95,7 @@ void GraphicsViewZoom::mousePressEvent(QMouseEvent *event)
 void GraphicsViewZoom::mouseReleaseEvent(QMouseEvent *event)
 {
     int t = buttonPressTime.elapsed();
-    emit tLog(tr("Mouse depress time = ") + QString::number(t) + tr(" msecs"));
+//    emit tLog(tr("Mouse depress time = ") + QString::number(t) + tr(" msecs"));
 
     if (event->button() == Qt::RightButton)
     {

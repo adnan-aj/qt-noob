@@ -151,7 +151,8 @@ void SchematicScene::drawBackground(QPainter *painter, const QRectF &rect)
 
     qreal left = int(rect.left()) - (int(rect.left()) % sheetGridSize);
     qreal top = int(rect.top()) - (int(rect.top()) % sheetGridSize);
-    emit tLog(tr("ViewZoom::drawBackground ") + QString::number(int(rect.width() / sheetGridSize)) + "," + QString::number(int(rect.height() / sheetGridSize)));
+    emit tLog(tr("ViewZoom::drawBackground (") + QString::number((int)(rect.x())) + "," + QString::number((int)rect.y()) +
+              ") to ("+ QString::number((int)(rect.right())) + "," + QString::number((int)(rect.bottom())) +")");
 
     // Paint the sheet background color first, with no sheet outline
     QGraphicsScene::drawBackground(painter, rect);\
@@ -163,12 +164,25 @@ void SchematicScene::drawBackground(QPainter *painter, const QRectF &rect)
     // Paint the grid on all background TODO: paint grid only on the sheet
     painter->setPen(gridPen);
     QVector<QPointF> points;
-    for (qreal x = left; x < rect.right(); x += sheetGridSize){
-        for (qreal y = top; y < rect.bottom(); y += sheetGridSize){
+
+    if (left < 100.0) left = 100.0;
+    if (top < 100.0) top = 100.0;
+    qreal right = rect.right();
+    qreal bottom = rect.bottom();
+    if (right > sheetSizeX) right = sheetSizeX;
+    if (bottom > sheetSizeY) bottom = sheetSizeY;
+
+
+    for (qreal x = left; x < right; x += sheetGridSize){
+        for (qreal y = top; y < bottom; y += sheetGridSize){
             points.append(QPointF(x,y));
         }
     }
     painter->drawPoints(points.data(), points.size());
+    gridPen.setColor(Qt::red);
+    gridPen.setWidth(20);
+    painter->setPen(gridPen);
+    painter->drawPoint(50, 50);
 }
 
 void SchematicScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
